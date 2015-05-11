@@ -8,7 +8,9 @@ semantics (goRight, goLeft).
 <link rel="import" href="../basic-aspect/basic-aspect.html">
 
 <script>
-Polymer(mixin(BasicAspectMixin, {
+Polymer({
+
+  behaviors: [Basic.Aspect],
 
   contribute: {
 
@@ -32,6 +34,7 @@ Polymer(mixin(BasicAspectMixin, {
     },
 
     touchStart: function(event) {
+      this.showTransition(false);
       var x = event.changedTouches[0].clientX;
       this._startX = x;
       this._previousX = x;
@@ -44,6 +47,7 @@ Polymer(mixin(BasicAspectMixin, {
     },
 
     touchEnd: function(x) {
+      this.showTransition(true);
       var x = event.changedTouches[0].clientX;
       if (this._delta >= 20) {
         // Finished going right at high speed.
@@ -79,6 +83,7 @@ Polymer(mixin(BasicAspectMixin, {
   // Default implementations will be ovewritten with collective methods.
   get position() {},
   set position(position) {},
+  showTransition: function() {},
 
   ready: function() {
     // TODO: touch events could be factored out into their own aspect.
@@ -110,5 +115,5 @@ Polymer(mixin(BasicAspectMixin, {
     this._previousX = x;
   },
 
-}));
+});
 </script>
